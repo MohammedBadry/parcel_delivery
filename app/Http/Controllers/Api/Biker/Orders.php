@@ -26,7 +26,7 @@ class Orders extends BaseController
     public function pickupOrder(Request $request, $id) {
         $order = Order::findOrFail($id);
         if($order->status!='Pending') {
-            return $this->sendError('Unauthorised.', ['error'=>'Not allowed']);
+            return $this->sendError('Forbidden.', ['error'=>'Not allowed'], 403);
         }
 
         $request->validate([
@@ -45,7 +45,7 @@ class Orders extends BaseController
     public function changeStatus($id) {
         $order = Order::findOrFail($id);
         if($order->biker_id != Auth::user()->id || $order->status!='Pickedup') {
-            return $this->sendError('Unauthorised.', ['error'=>'Not allowed']);
+            return $this->sendError('Forbidden.', ['error'=>'Not allowed'], 403);
         }
         $order->status = 'Delivered';
         $order->save();
