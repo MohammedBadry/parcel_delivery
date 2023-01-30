@@ -13,12 +13,12 @@ class Orders extends Controller
     public $path = 'dashboard.biker.orders.';
 
     public function index() {
-        $orders = Order::where('biker_id', Auth::user()->id)->paginate();
+        $orders = Order::with('user')->where('biker_id', Auth::user()->id)->paginate();
         return view($this->path.'index', compact('orders'));
     }
 
     public function suggested() {
-        $orders = Order::where('status', 'Pending')->paginate();
+        $orders = Order::with('user')->where('status', 'Pending')->paginate();
         return view($this->path.'index', compact('orders'));
     }
 

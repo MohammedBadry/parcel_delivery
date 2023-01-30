@@ -15,7 +15,7 @@ class Orders extends BaseController
 {
 
     public function index() {
-        $orders = Order::where('user_id', Auth::user()->id)->paginate();
+        $orders = Order::with('biker')->where('user_id', Auth::user()->id)->paginate();
         return OrdersResource::collection($orders);
     }
 
